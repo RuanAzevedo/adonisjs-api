@@ -1,0 +1,42 @@
+'use strict'
+
+const Schema = use('Schema')
+
+class TaskSchema extends Schema {
+  up () {
+    this.create('tasks', (table) => {
+      table.increments()
+      table.integer('project_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
+      table.integer('user_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
+      table.integer('file_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('files')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
+      table.string('title').notNullable()
+      table.text('description')
+      table.timestamp('due_date')
+      table.timestamps()
+    })
+  }
+
+  down () {
+    this.drop('tasks')
+  }
+}
+
+module.exports = TaskSchema
